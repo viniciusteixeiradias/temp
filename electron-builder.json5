@@ -1,36 +1,46 @@
-/**
- * @see https://www.electron.build/configuration/configuration
- */
 {
-  appId: "YourAppID",
-  asar: true,
-  icon: "public/favicon.ico",
-  directories: {
-    output: "release/${version}",
+  "appId": "ie.foodinn.prisma",
+  "asar": true,
+  "directories": {
+    "output": "release/${version}"
   },
-  files: ["dist-electron", "dist"],
-  extraResources: [
-    "primsa/**/*",
-    "node_modules/.prisma/client",
-    "node_modules/@prisma/client/**/*",
+  "files": ["dist-electron", "dist"],
+  "extraFiles": [
+    {
+      "from": "./external",
+      "to": "external",
+      "filter": "**/*"
+    }
   ],
-  mac: {
-    artifactName: "${productName}_${version}.${ext}",
-    target: ["dmg"],
+  "extraResources": [
+      "prisma/**/*",
+      "node_modules/.prisma/**/*",
+      "node_modules/@prisma/client/**/*"
+  ],
+  "mac": {
+    "artifactName": "${productName}_${version}.${ext}",
+    "target": ["dmg"]
   },
-  win: {
-    target: [
+  "win": {
+    "icon": "./public/foodinn.ico",
+    "publish": {
+      "provider": "github",
+      "private": true,
+      "vPrefixedTagName": true,
+      "releaseType": "prerelease"
+    },
+    "target": [
       {
-        target: "nsis",
-        arch: ["x64"],
-      },
+        "target": "nsis",
+        "arch": ["ia32", "x64"]
+      }
     ],
-    artifactName: "${productName}_${version}.${ext}",
+    "artifactName": "${productName}_${version}.${ext}"
   },
-  nsis: {
-    oneClick: false,
-    perMachine: false,
-    allowToChangeInstallationDirectory: true,
-    deleteAppDataOnUninstall: false,
-  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false
+  }
 }
